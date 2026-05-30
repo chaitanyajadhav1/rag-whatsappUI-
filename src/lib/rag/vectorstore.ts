@@ -73,8 +73,11 @@ export async function queryDocuments(
 
   const results = await index.searchRecords({
     namespace,
-    query: { topK, inputs: { text: query } },
-    filter: { userId: { $eq: userId } }, // Enforce tenant isolation
+    query: { 
+      topK, 
+      inputs: { text: query },
+      filter: { userId: { $eq: userId } } // Enforce tenant isolation
+    },
     fields: ["text", "documentId", "source", "chunkIndex"],
   });
 
