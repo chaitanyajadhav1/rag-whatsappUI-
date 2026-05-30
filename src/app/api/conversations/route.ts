@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       orderBy: { updatedAt: "desc" },
     });
 
-    const result = conversations.map((conv) => ({
+    const result = conversations.map((conv: any) => ({
       id: conv.id,
       name: conv.name,
       namespace: conv.namespace,
