@@ -1,4 +1,3 @@
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { Document } from "@langchain/core/documents";
 import * as XLSX from "xlsx";
@@ -33,8 +32,22 @@ export async function loadDocument(
 }
 
 async function loadPDF(filePath: string): Promise<Document[]> {
-  const loader = new PDFLoader(filePath);
-  return loader.load();
+  // Use pdf-parse directly instead of LangChain's PDFLoader,
+  // which breaks in Vercel serverless due to module resolution issues
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const pdfParse = require("pdf-parse");
+  const buffer = fs.readFileSync(filePath);
+  const data = await pdfParse(buffer);
+
+  return [
+    new Document({
+      pageContent: data.text,
+      metadata: {
+        source: filePath,
+        pages: data.numpages,
+      },
+    }),
+  ];
 }
 
 async function loadCSV(filePath: string): Promise<Document[]> {
