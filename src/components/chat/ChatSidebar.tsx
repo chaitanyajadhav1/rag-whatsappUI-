@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { useConversations, useCreateConversation, useDeleteConversation } from "@/hooks/useConversations";
-import { useDocuments } from "@/hooks/useDocuments";
 import { useAuth } from "@/hooks/useAuth";
 import ConversationItem from "./ConversationItem";
 
@@ -34,20 +33,11 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
   } = useAppStore();
 
   const { data: conversations = [] } = useConversations();
-  const { data: documents = [] } = useDocuments();
   const createConversation = useCreateConversation();
   const deleteConversation = useDeleteConversation();
 
-  // Get unique namespaces from indexed documents
-  const availableNamespaces = [...new Set(
-    documents
-      .filter((d) => d.status === "indexed")
-      .map((d) => d.namespace)
-  )];
-
   const [showNewChat, setShowNewChat] = useState(false);
   const [newChatName, setNewChatName] = useState("");
-  const [newChatNamespace, setNewChatNamespace] = useState("default");
   const [isDark, setIsDark] = useState(true);
 
   const filteredConversations = conversations.filter((c) =>
@@ -59,12 +49,11 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
     try {
       const conv = await createConversation.mutateAsync({
         name: newChatName.trim(),
-        namespace: newChatNamespace.trim() || "default",
+        namespace: "default",
       });
       setActiveConversation(conv.id);
       setShowNewChat(false);
       setNewChatName("");
-      setNewChatNamespace("");
       setShowSidebar(false);
     } catch (error) {
       console.error("Failed to create conversation:", error);
@@ -217,7 +206,7 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
             placeholder="Chat name"
             value={newChatName}
             onChange={(e) => setNewChatName(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg text-sm outline-none mb-2"
+            className="w-full px-3 py-2 rounded-lg text-sm outline-none mb-3"
             style={{
               background: "var(--bg-input)",
               color: "var(--text-primary)",
@@ -226,41 +215,7 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
             autoFocus
             onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
           />
-          <input
-            type="text"
-            placeholder="Namespace (vendor name, optional)"
-            value={newChatNamespace}
-            onChange={(e) => setNewChatNamespace(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg text-sm outline-none mb-3"
-            style={{
-              background: "var(--bg-input)",
-              color: "var(--text-primary)",
-              border: "1px solid var(--border-color)",
-            }}
-            onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
-          />
-          {availableNamespaces.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <span className="text-xs" style={{ color: "var(--text-secondary)", opacity: 0.7 }}>
-                Available:
-              </span>
-              {availableNamespaces.map((ns) => (
-                <button
-                  key={ns}
-                  onClick={() => setNewChatNamespace(ns)}
-                  className="px-2 py-0.5 rounded-full text-xs font-medium transition-colors"
-                  style={{
-                    background: newChatNamespace === ns ? "var(--accent)" : "var(--bg-hover)",
-                    color: newChatNamespace === ns ? "white" : "var(--text-secondary)",
-                    border: "1px solid var(--border-color)",
-                  }}
-                >
-                  {ns}
-                </button>
-              ))}
-            </div>
-          )}
-          <div className="flex gap-2 mt-3">
+          <div className="flex gap-2">
             <button
               onClick={() => setShowNewChat(false)}
               className="flex-1 py-2 rounded-lg text-xs font-medium transition-colors"

@@ -16,7 +16,6 @@ export default function UploadDialog({
   onUpload,
 }: UploadDialogProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [namespace, setNamespace] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
   if (!isOpen) return null;
@@ -25,9 +24,8 @@ export default function UploadDialog({
     if (selectedFiles.length === 0) return;
     setIsUploading(true);
     try {
-      await onUpload(selectedFiles, namespace || "default");
+      await onUpload(selectedFiles, "default");
       setSelectedFiles([]);
-      setNamespace("");
       onClose();
     } catch (error) {
       console.error("Upload failed:", error);
@@ -114,28 +112,6 @@ export default function UploadDialog({
             ))}
           </div>
         )}
-
-        {/* Namespace */}
-        <div className="mt-4">
-          <label
-            className="block text-xs font-medium mb-1.5"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            Namespace / Vendor (optional)
-          </label>
-          <input
-            type="text"
-            value={namespace}
-            onChange={(e) => setNamespace(e.target.value)}
-            placeholder="e.g., amd, msi, corsair"
-            className="w-full px-3 py-2.5 rounded-lg text-sm outline-none"
-            style={{
-              background: "var(--bg-input)",
-              color: "var(--text-primary)",
-              border: "1px solid var(--border-color)",
-            }}
-          />
-        </div>
 
         {/* Actions */}
         <div className="flex gap-3 mt-6">

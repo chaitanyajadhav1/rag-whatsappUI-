@@ -57,9 +57,7 @@ export default function ChatHeader({
           {conversation.name}
         </h3>
         <p className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>
-          {conversation.namespace !== "default"
-            ? `Namespace: ${conversation.namespace}`
-            : "General namespace"}
+          AI-powered document search
         </p>
       </div>
 
