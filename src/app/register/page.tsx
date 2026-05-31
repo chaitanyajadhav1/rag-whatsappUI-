@@ -49,7 +49,7 @@ export default function RegisterPage() {
             className="text-sm mt-1"
             style={{ color: "var(--text-secondary)" }}
           >
-            Join HeidalAI to start chatting with your documents
+            Join Heidelai to start chatting with your documents
           </p>
         </div>
 

@@ -42,7 +42,7 @@ export default function LoginPage() {
             className="text-2xl font-bold"
             style={{ color: "var(--text-primary)" }}
           >
-            HeidalAI
+            Heidelai
           </h1>
           <p
             className="text-sm mt-1"
