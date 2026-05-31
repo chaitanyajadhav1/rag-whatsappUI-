@@ -35,7 +35,7 @@ export default function Home() {
   if (!mounted || !isAuthenticated) {
     return (
       <div
-        className="h-screen flex items-center justify-center"
+        className="h-dvh flex items-center justify-center"
         style={{ background: "var(--bg-app)" }}
       >
         <div className="flex flex-col items-center gap-3">
@@ -73,7 +73,7 @@ export default function Home() {
 
   return (
     <div
-      className="h-screen flex overflow-hidden"
+      className="h-dvh flex overflow-hidden"
       style={{ background: "var(--bg-app)" }}
     >
       {/* Top green bar (WhatsApp Web style) */}
@@ -83,13 +83,14 @@ export default function Home() {
       />
 
       {/* Main container */}
-      <div className="relative z-10 flex w-full max-w-[1600px] mx-auto my-0 md:my-5 h-full md:h-[calc(100vh-40px)] shadow-2xl rounded-none md:rounded-lg overflow-hidden">
+      <div className="relative z-10 flex w-full max-w-[1600px] mx-auto my-0 md:my-5 h-dvh md:h-[calc(100dvh-40px)] shadow-2xl rounded-none md:rounded-lg overflow-hidden">
         {/* Sidebar */}
         <div
           className={`
             ${showSidebar ? "flex" : "hidden"} md:flex
             flex-col w-full md:w-[420px] lg:w-[440px] shrink-0
             absolute md:relative inset-0 z-20 md:z-auto
+            h-full max-h-dvh md:max-h-full overflow-hidden
           `}
           style={{ background: "var(--bg-sidebar)" }}
         >

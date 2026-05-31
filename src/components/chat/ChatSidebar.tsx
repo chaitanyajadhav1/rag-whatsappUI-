@@ -79,7 +79,7 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
 
   return (
     <div
-      className="flex flex-col h-full"
+      className="flex flex-col h-full min-h-0 overflow-hidden"
       style={{
         background: "var(--bg-sidebar)",
         borderRight: "1px solid var(--border-color)",
@@ -239,7 +239,7 @@ export default function ChatSidebar({ onViewDocuments }: ChatSidebarProps) {
       )}
 
       {/* Conversation List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-h-0">
         {filteredConversations.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 px-4">
             <MessageCircle
