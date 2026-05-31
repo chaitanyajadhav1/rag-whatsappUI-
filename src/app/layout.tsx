@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "HeidalAI — Smart Document Chat",
+  title: "Heidelai — Smart Document Chat",
   description:
     "WhatsApp-style AI chat application for querying your business documents. Upload PDFs, Excel files, and CSVs to get instant, AI-powered answers.",
   keywords: [
